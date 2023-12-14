@@ -9073,3 +9073,152 @@
 2023-12-14T15:07:19.4103380-06:00	FAIL	[MovieApp.Services.Helper]	[0]	Error: Input string was not in a correct format.
 2023-12-14T15:07:19.5400320-06:00	FAIL	[MovieApp.Services.Helper]	[0]	Error: Input string was not in a correct format.
 2023-12-14T15:07:19.6563400-06:00	FAIL	[MovieApp.Services.Helper]	[0]	Error: Input string was not in a correct format.
+2023-12-14T15:50:03.2962680-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 5 ...
+2023-12-14T15:50:03.3286510-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Quering database ...
+2023-12-14T15:50:03.9058030-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:03.905 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.10 initialized 'MovieContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.10' with options: using lazy loading proxies 
+2023-12-14T15:50:06.4224980-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:06.422 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1,102ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [o].[Name] AS [UserOccupation], (
+          SELECT TOP(1) [m].[Title]
+          FROM [UserMovies] AS [u1]
+          INNER JOIN [Users] AS [u2] ON [u1].[UserId] = [u2].[Id]
+          INNER JOIN [Occupations] AS [o0] ON [u2].[OccupationId] = [o0].[Id]
+          INNER JOIN [Movies] AS [m] ON [u1].[MovieId] = [m].[Id]
+          WHERE ([o].[Name] = [o0].[Name]) AND ([u1].[Rating] = (
+              SELECT MAX([u3].[Rating])
+              FROM [UserMovies] AS [u3]
+              INNER JOIN [Users] AS [u4] ON [u3].[UserId] = [u4].[Id]
+              INNER JOIN [Occupations] AS [o1] ON [u4].[OccupationId] = [o1].[Id]
+              WHERE [o].[Name] = [o1].[Name]))
+          ORDER BY [m].[Title]) AS [MovieTitle], MAX([u].[Rating]) AS [Rating]
+      FROM [UserMovies] AS [u]
+      INNER JOIN [Users] AS [u0] ON [u].[UserId] = [u0].[Id]
+      INNER JOIN [Occupations] AS [o] ON [u0].[OccupationId] = [o].[Id]
+      GROUP BY [o].[Name]
+2023-12-14T15:50:09.7679380-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 5 ...
+2023-12-14T15:50:09.7715670-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Quering database ...
+2023-12-14T15:50:10.2367970-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:10.236 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (453ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u0].[Gender] AS [UserGender], (
+          SELECT TOP(1) [m].[Title]
+          FROM [UserMovies] AS [u1]
+          INNER JOIN [Users] AS [u2] ON [u1].[UserId] = [u2].[Id]
+          INNER JOIN [Movies] AS [m] ON [u1].[MovieId] = [m].[Id]
+          WHERE ([u0].[Gender] = [u2].[Gender]) AND ([u1].[Rating] = (
+              SELECT MAX([u3].[Rating])
+              FROM [UserMovies] AS [u3]
+              INNER JOIN [Users] AS [u4] ON [u3].[UserId] = [u4].[Id]
+              WHERE [u0].[Gender] = [u4].[Gender]))
+          ORDER BY [m].[Title]) AS [MovieTitle], MAX([u].[Rating]) AS [Rating]
+      FROM [UserMovies] AS [u]
+      INNER JOIN [Users] AS [u0] ON [u].[UserId] = [u0].[Id]
+      GROUP BY [u0].[Gender]
+2023-12-14T15:50:16.5760440-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 5 ...
+2023-12-14T15:50:21.4355260-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:21.435 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (84ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[Age], [u].[Gender], [u].[OccupationId], [u].[ZipCode]
+      FROM [Users] AS [u]
+2023-12-14T15:50:23.2226900-06:00	FAIL	[MovieApp.Services.Helper]	[0]	Error: Input string was not in a correct format.
+2023-12-14T15:50:25.3034260-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 952 ...
+2023-12-14T15:50:29.2218360-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Searching term 'OPPEN' ...
+2023-12-14T15:50:29.4296410-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:29.429 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (130ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[ReleaseDate], [m].[Title], [t].[Id], [t].[GenreId], [t].[MovieId], [t].[Id0], [t].[Name]
+      FROM [Movies] AS [m]
+      LEFT JOIN (
+          SELECT [m0].[Id], [m0].[GenreId], [m0].[MovieId], [g].[Id] AS [Id0], [g].[Name]
+          FROM [MovieGenres] AS [m0]
+          INNER JOIN [Genres] AS [g] ON [m0].[GenreId] = [g].[Id]
+      ) AS [t] ON [m].[Id] = [t].[MovieId]
+      ORDER BY [m].[Id], [t].[Id]
+2023-12-14T15:50:31.4663080-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Querying database ...
+2023-12-14T15:50:31.5937110-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:31.593 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (112ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [m].[Id], [m].[ReleaseDate], [m].[Title]
+      FROM [Movies] AS [m]
+      WHERE [m].[Id] = @__p_0
+2023-12-14T15:50:35.3610520-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:35.360 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (125ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[ReleaseDate], [m].[Title], [t].[Id], [t].[GenreId], [t].[MovieId], [t].[Id0], [t].[Name]
+      FROM [Movies] AS [m]
+      LEFT JOIN (
+          SELECT [m0].[Id], [m0].[GenreId], [m0].[MovieId], [g].[Id] AS [Id0], [g].[Name]
+          FROM [MovieGenres] AS [m0]
+          INNER JOIN [Genres] AS [g] ON [m0].[GenreId] = [g].[Id]
+      ) AS [t] ON [m].[Id] = [t].[MovieId]
+      ORDER BY [m].[Id], [t].[Id]
+2023-12-14T15:50:43.0994560-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 1688 ...
+2023-12-14T15:50:43.0994980-06:00	FAIL	[MovieApp.Services.Helper]	[0]	User integer not within range of 1 - 1688
+2023-12-14T15:50:45.7275160-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 1688 ...
+2023-12-14T15:50:47.6955710-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 5 ...
+2023-12-14T15:50:49.3423900-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:49.342 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (129ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[Age], [u].[Gender], [u].[OccupationId], [u].[ZipCode]
+      FROM [Users] AS [u]
+      WHERE [u].[Id] = @__p_0
+2023-12-14T15:50:49.4282620-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:50:49.428 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (80ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [m].[Id], [m].[ReleaseDate], [m].[Title]
+      FROM [Movies] AS [m]
+      WHERE [m].[Id] = @__p_0
+2023-12-14T15:53:20.6976450-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:20.693 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.10 initialized 'MovieContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.10' with options: using lazy loading proxies 
+2023-12-14T15:53:22.1911340-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:22.191 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (136ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[Age], [u].[Gender], [u].[OccupationId], [u].[ZipCode]
+      FROM [Users] AS [u]
+2023-12-14T15:53:25.4176550-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 952 ...
+2023-12-14T15:53:29.8011600-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Searching term 'FREDDY' ...
+2023-12-14T15:53:30.6973670-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:30.697 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (714ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[ReleaseDate], [m].[Title], [t].[Id], [t].[GenreId], [t].[MovieId], [t].[Id0], [t].[Name]
+      FROM [Movies] AS [m]
+      LEFT JOIN (
+          SELECT [m0].[Id], [m0].[GenreId], [m0].[MovieId], [g].[Id] AS [Id0], [g].[Name]
+          FROM [MovieGenres] AS [m0]
+          INNER JOIN [Genres] AS [g] ON [m0].[GenreId] = [g].[Id]
+      ) AS [t] ON [m].[Id] = [t].[MovieId]
+      ORDER BY [m].[Id], [t].[Id]
+2023-12-14T15:53:31.7529880-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Querying database ...
+2023-12-14T15:53:31.9055350-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:31.905 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (130ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [m].[Id], [m].[ReleaseDate], [m].[Title]
+      FROM [Movies] AS [m]
+      WHERE [m].[Id] = @__p_0
+2023-12-14T15:53:33.6203350-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:33.620 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (145ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[ReleaseDate], [m].[Title], [t].[Id], [t].[GenreId], [t].[MovieId], [t].[Id0], [t].[Name]
+      FROM [Movies] AS [m]
+      LEFT JOIN (
+          SELECT [m0].[Id], [m0].[GenreId], [m0].[MovieId], [g].[Id] AS [Id0], [g].[Name]
+          FROM [MovieGenres] AS [m0]
+          INNER JOIN [Genres] AS [g] ON [m0].[GenreId] = [g].[Id]
+      ) AS [t] ON [m].[Id] = [t].[MovieId]
+      ORDER BY [m].[Id], [t].[Id]
+2023-12-14T15:53:36.6031590-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 1688 ...
+2023-12-14T15:53:40.5354640-06:00	INFO	[MovieApp.Services.Helper]	[0]	Verifying user integer valid within range of 1 - 5 ...
+2023-12-14T15:53:42.6731620-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:42.673 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (664ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[Age], [u].[Gender], [u].[OccupationId], [u].[ZipCode]
+      FROM [Users] AS [u]
+      WHERE [u].[Id] = @__p_0
+2023-12-14T15:53:42.7900580-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:42.789 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (110ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [m].[Id], [m].[ReleaseDate], [m].[Title]
+      FROM [Movies] AS [m]
+      WHERE [m].[Id] = @__p_0
+2023-12-14T15:53:43.1064450-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:43.106 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (95ms) [Parameters=[@p0='?' (DbType = Int64), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int64), @p3='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [UserMovies] ([MovieId], [RatedAt], [Rating], [UserId])
+      VALUES (@p0, @p1, @p2, @p3);
+      SELECT [Id]
+      FROM [UserMovies]
+      WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2023-12-14T15:53:43.2986490-06:00	INFO	[MovieLibraryEntities.Dao.Repository]	[0]	Entry 100009 added to database.
+2023-12-14T15:53:43.4064770-06:00	INFO	[MovieLibraryEntities.Context.MovieContext]	[0]	info: 12/14/2023 15:53:43.406 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (96ms) [Parameters=[@__p_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT [o].[Id], [o].[Name]
+      FROM [Occupations] AS [o]
+      WHERE [o].[Id] = @__p_0

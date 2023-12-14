@@ -202,7 +202,7 @@ namespace MovieLibraryEntities.Dao
 
         public bool GetValidMovie(int movieID)
         {
-            _logger.LogInformation("Displaying movie details to user ...");
+            _logger.LogInformation("Querying...");
             var movie = _context.Movies.FirstOrDefault(x => x.Id == movieID);
             if (movie is Movie)
                 return true;

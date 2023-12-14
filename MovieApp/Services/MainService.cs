@@ -654,6 +654,11 @@ public class MainService : IMainService
                     }
                 }
                 var currentMovie = _helper.GetIntInRange("\nPlease enter the ID for the movie being rated:", 1, _repository.GetAll().Count());
+                if (!_repository.GetValidMovie(currentMovie))
+                {
+                    Console.WriteLine("Movie ID entered does not exist in database.");
+                    break;
+                }
 
                 var userRating = _helper.GetIntInRange("\nWhat rating would you like to assign to this movie (1 = worst, 5 = best)?", 1, 5);
 
